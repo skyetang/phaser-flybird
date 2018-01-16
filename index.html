@@ -1,0 +1,74 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script src="https://cdn.bootcss.com/phaser/2.6.2/phaser.min.js"></script>
+	</head>
+	<body>
+		<div id="game"></div>
+		<script type="text/javascript">
+			var game = new Phaser.Game(800, 600, Phaser.AUTO, '#game')
+
+			var States = {
+				boot: function() {
+					this.preload = function() {
+						console.log('boot-preload')
+						game.load.image('loading', 'assets/texture/loading.gif')
+					}
+					this.create = function() {
+						console.log('boot-create')
+						game.state.start('preload')
+					}
+
+				},
+				preload: function() {
+					this.preload = function() {
+				 		console.log('preload-preload')
+				 		var preloadSprite = game.add.sprite(game.width/2 - 120, game.height/2, 'loading')
+				 		game.load.setPreloadSprite(preloadSprite)
+
+				 		game.load.image('background', 'assets/texture/background.png')
+				 		game.load.image('ground', 'assets/texture/ground.png')
+				 		game.load.spritesheet('bird', 'assets/texture/bird.png', 34, 34, 3)
+				 		game.load.image('title', 'assets/texture/title.png')
+				 		game.load.image('tube', 'assets/texture/tube.png')
+				 		game.load.image('ok', 'assets/texture/OKButton.png')
+				 		game.load.image('start', 'assets/texture/startButton.png')
+				 		game.load.image('background', 'assets/texture/background.png')
+				 		game.load.image('game_over', 'assets/texture/gameOver.png')
+
+				 		game.load.audio('hit', 'assets/sound/hit.wav')
+				 		game.load.audio('die', 'assets/sound/die.wav')
+				 		game.load.audio('point', 'assets/sound/point.wav')
+				 		game.load.audio('wing', 'assets/sound/wing.wav')
+				 		game.load.audio('btn_click', 'assets/sound/buttonClick.wav')
+				 		game.load.audio('swooshing', 'assets/sound/sfx_swooshing.wav')
+
+					},
+
+					this.create = function() {
+				 		console.log('preload-create')
+				 		this.state.start('menu')
+				 	  var birdSprite = game.add.sprite(450,200,'bird')
+				 	  birdSprite.animations.add('walk')
+				 	  birdSprite.animations.play('walk', 10, true)
+					}
+				},
+				menu: function() {
+					this.preload = function() {
+
+					}
+
+				},
+				play: function() {
+
+				}
+			}
+
+			Object.keys(States).forEach(function(key) {
+				game.state.add(key, States[key])
+			})
+
+			game.state.start('boot')
+		</script>
+	</body>
+</html>
